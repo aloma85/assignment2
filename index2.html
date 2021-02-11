@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0"/>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./static/css/main.css"/>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="app">
+    <h2> {{ pageName }} </h2>
+    <ul>
+        <li v-for="(movie, index) in movies" :key="movie.id">
+            <input type="number" class="stars" v-model.number="movie.stars">
+            <span> {{ movie.title }} </span>
+
+            <span> {{ fullName(movie) }} </span>
+            <span v-if="movie.stars === 0">
+                - That bad?
+            </span>
+            <span v-else-if="movie.stars > 5">
+                - Only 5 stars or less!
+            </span>
+            
+            <button type="submit" class="btn btn-primary submit" v-on:click="deleteMovie(index)">DELETE</button>
+        </li>
+    </ul>
+    <h2>Total Movies available: {{ totalMovies }}</h2>
+
+    <form id="addmovie-form" @submit.prevent="addMovie">
+        <div class="form-group">
+            <label for="movieTitle">Movie Title:</label>
+            <input class="form-control" id="movieTitle">
+
+            <label for="stars">Quantity:</label>
+            <input type="number" class="form-control" id="stars">
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary">Add Movie</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    const app = new Vue({
+        el: '#app',
+        data: {
+            pageName: "Vue.js Movie app",
+            movies: [
+                {"id": 0, "movieTitle": "Charles", "stars": 10},
+                {"id": 1, "movieTitle": "Charles", "stars": 0},
+            ]
+        },
+        computed: {
+            totalMovies: function () {
+                return this.movies.reduce((sum, movie) => {
+                    return sum + movie.stars;
+                }, 0);
+            }
+        },
+        methods: {
+            fullName: function (movie) {
+                return movie.movieTitle;
+            },
+            addMovie: function() {
+                console.log("addmovie()");
+
+                const addMovieForm = document.getElementById('addmovie-form');
+                const movieTitleInput  = addMovieForm.querySelector('input[id=movieTitle]');
+                const starsInput = addMovieForm.querySelector('input[id=stars]');
+
+                this.movies.push({"id": this.movies.len, "movieTitle": movieTitleInput.value, 
+                "stars": parseInt(starsInput.value, 10)})
+            },
+            deleteMovie: function(index) {
+                console.log("deleteMovie() was called ", index);
+                this.movies.splice(index, 1);
+            }
+        },
+        created: function() {
+            console.log("created event happened");
+        }
+    });
+</script>
+
+
+</body>
+</html>
