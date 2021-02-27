@@ -14,7 +14,8 @@
     <h2> {{ pageName }} </h2>
     <ul>
         <li v-for="(movie, index) in movies" :key="movie.id">
-            <input type="number" class="stars" v-model.number="movie.stars">
+            <input type="number" class="stars" v-model.number="movie.stars" placeholder="stars">
+
             <span> {{ movie.title }} </span>
 
             <span> {{ fullName(movie) }} </span>
@@ -28,14 +29,14 @@
             <button type="submit" class="btn btn-primary submit" v-on:click="deleteMovie(index)">DELETE</button>
         </li>
     </ul>
-    <h2>Total Movies available: {{ totalMovies }}</h2>
+    <h2>Total Movies available: {{ movies.length }}</h2>
 
     <form id="addmovie-form" @submit.prevent="addMovie">
         <div class="form-group">
             <label for="movieTitle">Movie Title:</label>
             <input class="form-control" id="movieTitle">
 
-            <label for="stars">Quantity:</label>
+            <label for="stars">Rate Movie (1 to 5):</label>
             <input type="number" class="form-control" id="stars">
         </div>
         <div class="col-md-6">
@@ -50,8 +51,8 @@
         data: {
             pageName: "Vue.js Movie app",
             movies: [
-                {"id": 0, "movieTitle": "Charles", "stars": 10},
-                {"id": 1, "movieTitle": "Charles", "stars": 0},
+                {"id": 0, "movieTitle": "Scarface", "stars": 5},
+                {"id": 1, "movieTitle": "Lord of the rings", "stars": 4},
             ]
         },
         computed: {
