@@ -14,16 +14,20 @@
     <h2> {{ pageName }} </h2>
     <ul>
         <li v-for="(movie, index) in movies" :key="movie.id">
-            <input type="number" class="stars" v-model.number="movie.stars" placeholder="stars">
-
             <span> {{ movie.title }} </span>
 
             <span> {{ fullName(movie) }} </span>
-            <span v-if="movie.stars === 0">
-                - That bad?
+
+            <span v-if="movie.stars > 5">
+                5 stars
             </span>
-            <span v-else-if="movie.stars > 5">
-                - Only 5 stars or less!
+
+            <span v-else-if="movie.stars < 0">
+                0 stars
+            </span>
+
+            <span v-else-if="movie.stars >= 0 || movie.stars <= 5">
+                {{movie.stars}} stars
             </span>
             
             <button type="submit" class="btn btn-primary submit" v-on:click="deleteMovie(index)">DELETE</button>
@@ -36,7 +40,7 @@
             <label for="movieTitle">Movie Title:</label>
             <input class="form-control" id="movieTitle">
 
-            <label for="stars">Rate Movie (1 to 5):</label>
+            <label for="stars">Rate Movie (0 to 5):</label>
             <input type="number" class="form-control" id="stars">
         </div>
         <div class="col-md-6">
@@ -74,7 +78,7 @@
                 const starsInput = addMovieForm.querySelector('input[id=stars]');
 
                 this.movies.push({"id": this.movies.len, "movieTitle": movieTitleInput.value, 
-                "stars": parseInt(starsInput.value, 10)})
+                "stars": parseInt(starsInput.value)})
             },
             deleteMovie: function(index) {
                 console.log("deleteMovie() was called ", index);
