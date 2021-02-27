@@ -1,0 +1,1 @@
+This is a simple vue.js movie rating application.

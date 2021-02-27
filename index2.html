@@ -34,7 +34,7 @@
         </li>
     </ul>
     <h3>Total Movies available: {{ movies.length }}</h3>
-    <h3>Average of all ratings: {{totalMovies / movies.length}} </h3>
+    <h3>Average of all ratings: {{parseInt(totalMovies / movies.length)}} </h3>
 
     <form id="addmovie-form" @submit.prevent="addMovie">
         <div class="form-group">
